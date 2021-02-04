@@ -1,0 +1,20 @@
+version: '3.1'
+
+services:
+  evaluator:
+    build: 
+      context: ./evaluator
+    restart: always
+    deploy:
+      replicas: 4
+    ports:
+      - "80"
+
+  nginx:
+    image: nginx:latest
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - evaluator
+    ports:
+      - "4000:4000"
